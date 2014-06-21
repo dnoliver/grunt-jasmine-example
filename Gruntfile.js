@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     options: {
       specs: 'test/**/*_spec.js',
       version: '2.0.0',
-      outfile: 'test/SpecRunner.html',
+      outfile: 'SpecRunner.html',
       keepRunner: true,
       summary: true,
       host : 'http://127.0.0.1:8080/'
@@ -19,6 +19,16 @@ module.exports = function(grunt) {
   // test all task
   gruntConfig.jasmine.all = {
     src: 'src/**/*.js',
+  };
+
+  gruntConfig.jasmine.teamcity = {
+    src: 'src/**/*.js',
+    options: {
+      helpers: [
+        'jasmine-reporters/src/jasmine.teamcity_reporter.js', 
+        'test/harness.js'
+      ]
+    }
   };
 
   // coverage task
@@ -54,6 +64,15 @@ module.exports = function(grunt) {
     options: {}
   }
 
+  // clean task
+  grunt.loadNpmTasks('grunt-contrib-clean');
+
+  gruntConfig.clean = {
+    all: {
+      src: ['SpecRunner.html', 'coverage']
+    }
+  };
+
   // Project configuration.
   grunt.initConfig(gruntConfig);
 
@@ -61,5 +80,6 @@ module.exports = function(grunt) {
   grunt.registerTask('default', []);
   grunt.registerTask('server', ['connect:server']);
   grunt.registerTask('test', ['connect:test', 'jasmine:all']);
+  grunt.registerTask('teamcity', ['connect:test', 'jasmine:teamcity']);
   grunt.registerTask('coverage', ['connect:test', 'jasmine:istanbul']);  
 };
