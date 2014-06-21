@@ -1,0 +1,3 @@
+[submodule "jasmine-reporters"]
+	path = jasmine-reporters
+	url = https://github.com/larrymyers/jasmine-reporters.git
